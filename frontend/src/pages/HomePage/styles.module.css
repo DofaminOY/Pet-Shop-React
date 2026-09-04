@@ -1,0 +1,48 @@
+.home {
+  width: 100%;
+}
+
+.categories {
+  margin-top: 80px;
+}
+
+.sales {
+  margin-top: 80px;
+}
+
+.title {
+  margin: 0;
+
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 110%;
+  color: #282828;
+}
+
+@media (max-width: 1024px) {
+  .title {
+    font-size: 48px;
+  }
+}
+
+@media (max-width: 768px) {
+  .categories,
+  .sales {
+    margin-top: 56px;
+  }
+
+  .title {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .categories,
+  .sales {
+    margin-top: 40px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+}

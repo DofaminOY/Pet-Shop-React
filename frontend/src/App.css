@@ -1,0 +1,42 @@
+:root {
+  --primary-color: #0d50ff;
+  --text-color: #282828;
+  --gray-color: #8b8b8b;
+  --border-color: #dddddd;
+  --light-gray-color: #f1f3f4;
+  --white-color: #ffffff;
+
+  --container-width: 1360px;
+
+  --radius-small: 6px;
+  --radius-large: 12px;
+
+  --hero-max-height: 600px;
+  --hero-ratio: 12 / 5;
+}
+
+.container {
+  width: calc(100% - 80px);
+  max-width: var(--container-width);
+  margin: 0 auto;
+}
+
+/* Планшет */
+@media (max-width: 1024px) {
+  .container {
+    width: calc(100% - 48px);
+  }
+}
+
+/* Мобильные устройства */
+@media (max-width: 768px) {
+  .container {
+    width: calc(100% - 40px);
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: calc(100% - 32px);
+  }
+}
