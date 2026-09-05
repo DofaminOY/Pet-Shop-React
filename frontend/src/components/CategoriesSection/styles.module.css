@@ -1,0 +1,59 @@
+.categoriesSection {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  margin-top: 80px;
+}
+
+.categoriesList {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+
+  width: 100%;
+}
+
+.message {
+  margin: 0;
+
+  color: #8b8b8b;
+
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 130%;
+}
+
+/* Планшет */
+@media (max-width: 1024px) {
+  .categoriesSection {
+    margin-top: 64px;
+  }
+
+  .categoriesList {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Мобильные устройства */
+@media (max-width: 768px) {
+  .categoriesSection {
+    gap: 32px;
+
+    margin-top: 48px;
+  }
+
+  .categoriesList {
+    gap: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .categoriesSection {
+    margin-top: 40px;
+  }
+
+  .categoriesList {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,39 @@
+.categoryCard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  width: 100%;
+
+  color: #282828;
+}
+
+.image {
+  width: 100%;
+  aspect-ratio: 316 / 350;
+
+  border-radius: 12px;
+
+  object-fit: cover;
+}
+
+.title {
+  margin: 0;
+
+  overflow: hidden;
+
+  color: #282828;
+
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 130%;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 18px;
+  }
+}

@@ -6,19 +6,21 @@
   --light-gray-color: #f1f3f4;
   --white-color: #ffffff;
 
+  --page-width: 1440px;
   --container-width: 1360px;
 
   --radius-small: 6px;
   --radius-large: 12px;
 
-  --hero-max-height: 600px;
   --hero-ratio: 12 / 5;
 }
 
 .container {
   width: calc(100% - 80px);
   max-width: var(--container-width);
-  margin: 0 auto;
+
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Планшет */
