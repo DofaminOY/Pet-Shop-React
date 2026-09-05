@@ -21,3 +21,27 @@ export const fetchCategories = createAsyncThunk(
     }
   },
 );
+
+// Получаем выбранную категорию и товары этой категории с backend
+export const fetchCategoryById = createAsyncThunk(
+  "categories/fetchCategoryById",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/categories/${id}`);
+
+      const category = response.data.category;
+
+      const products = response.data.data.map((product) => ({
+        ...product,
+        image: `${BASE_URL}${product.image}`,
+      }));
+
+      return {
+        category,
+        products,
+      };
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);

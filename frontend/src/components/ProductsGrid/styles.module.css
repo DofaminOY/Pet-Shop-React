@@ -1,0 +1,27 @@
+.productsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px;
+
+  width: 100%;
+}
+
+/* Планшет */
+@media (max-width: 1024px) {
+  .productsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Мобильные устройства */
+@media (max-width: 768px) {
+  .productsGrid {
+    gap: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .productsGrid {
+    grid-template-columns: 1fr;
+  }
+}
