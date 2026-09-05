@@ -1,5 +1,6 @@
 import Hero from "../../components/Hero";
 import CategoriesSection from "../../components/CategoriesSection";
+import DiscountForm from "../../components/DiscountForm";
 
 import styles from "./styles.module.css";
 
@@ -9,6 +10,8 @@ function HomePage() {
       <Hero />
 
       <CategoriesSection />
+
+      <DiscountForm />
     </div>
   );
 }

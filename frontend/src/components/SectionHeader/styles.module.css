@@ -20,18 +20,11 @@
 .navigation {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   flex: 1;
 
   height: 46px;
   margin-left: 32px;
-}
-
-.line {
-  flex: 1;
-
-  height: 1px;
-
-  background-color: #dddddd;
 }
 
 .link {

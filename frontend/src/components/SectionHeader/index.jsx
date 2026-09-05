@@ -8,8 +8,6 @@ function SectionHeader({ title, linkText, linkTo }) {
       <h2 className={styles.title}>{title}</h2>
 
       <div className={styles.navigation}>
-        <div className={styles.line}></div>
-
         <Link to={linkTo} className={styles.link}>
           {linkText}
         </Link>
