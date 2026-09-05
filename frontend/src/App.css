@@ -23,14 +23,12 @@
   margin-right: auto;
 }
 
-/* Планшет */
 @media (max-width: 1024px) {
   .container {
     width: calc(100% - 48px);
   }
 }
 
-/* Мобильные устройства */
 @media (max-width: 768px) {
   .container {
     width: calc(100% - 40px);

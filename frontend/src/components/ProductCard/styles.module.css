@@ -1,10 +1,8 @@
 .productCard {
   position: relative;
 
-  display: flex;
-  flex-direction: column;
-
   width: 100%;
+  height: 422px;
 
   overflow: hidden;
 
@@ -12,14 +10,25 @@
   border-radius: 12px;
 
   background-color: #ffffff;
+}
+
+.productLink {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100%;
+
   color: #282828;
 }
 
 .imageWrapper {
   position: relative;
 
+  flex-shrink: 0;
+
   width: 100%;
-  aspect-ratio: 316 / 284;
+  height: 284px;
 
   overflow: hidden;
 
@@ -104,8 +113,83 @@
   text-decoration: line-through;
 }
 
+.addButton {
+  position: absolute;
+  top: 210px;
+  left: 16px;
+  z-index: 5;
+
+  width: calc(100% - 32px);
+  height: 58px;
+
+  padding: 16px 32px;
+
+  border: none;
+  border-radius: 6px;
+
+  background-color: #0d50ff;
+  color: #ffffff;
+
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 130%;
+
+  cursor: pointer;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.productCard:hover .addButton,
+.productCard:focus-within .addButton {
+  opacity: 1;
+  visibility: visible;
+}
+
+.addButton:hover {
+  background-color: #282828;
+}
+
+.addedButton {
+  border: 1px solid #282828;
+
+  background-color: #ffffff;
+  color: #282828;
+
+  opacity: 1;
+  visibility: visible;
+}
+
+.addedButton:hover {
+  background-color: #ffffff;
+  color: #282828;
+}
+
+.addButton:disabled {
+  cursor: default;
+}
+
+/* Устройства без обычного hover */
+@media (hover: none) {
+  .addButton {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
 /* Мобильные устройства */
 @media (max-width: 768px) {
+  .productCard {
+    height: auto;
+    min-height: 390px;
+  }
+
   .content {
     padding: 16px 20px 24px;
   }
@@ -117,6 +201,12 @@
   .title,
   .discount,
   .oldPrice {
+    font-size: 18px;
+  }
+
+  .addButton {
+    top: 210px;
+
     font-size: 18px;
   }
 }

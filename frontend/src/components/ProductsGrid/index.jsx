@@ -6,7 +6,10 @@ function ProductsGrid({ products }) {
   return (
     <div className={styles.productsGrid}>
       {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
+        <ProductCard
+          key={product.id}
+          product={product}
+        />
       ))}
     </div>
   );

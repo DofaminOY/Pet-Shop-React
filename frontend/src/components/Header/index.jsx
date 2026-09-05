@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import logo from "../../assets/icons/logo.svg";
 import cart from "../../assets/icons/cart.svg";
@@ -9,9 +10,9 @@ import styles from "./styles.module.css";
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Временно количество товаров равно нулю.
-  // Позже это значение будем получать из Redux.
-  const cartCount = 0;
+  const cartCount = useSelector((state) =>
+    state.cart.items.reduce((total, item) => total + item.quantity, 0),
+  );
 
   const closeMenu = () => {
     setIsMenuOpen(false);
@@ -26,7 +27,7 @@ function Header() {
           onClick={closeMenu}
           aria-label="Main page"
         >
-          <img src={logo} alt="Pet Shop" />
+          <img src={logo} alt="Pet Shop" className={styles.logoImage} />
         </Link>
 
         <nav
@@ -50,35 +51,37 @@ function Header() {
           </Link>
         </nav>
 
-        <Link
-          to="/cart"
-          className={styles.cartLink}
-          onClick={closeMenu}
-          aria-label="Shopping cart"
-        >
-          <img src={cart} alt="" className={styles.cartIcon} />
+        <div className={styles.actions}>
+          <Link
+            to="/cart"
+            className={styles.cartLink}
+            onClick={closeMenu}
+            aria-label="Shopping cart"
+          >
+            <img src={cart} alt="" className={styles.cartIcon} />
 
-          {cartCount > 0 && (
-            <span className={styles.cartCount}>
-              {cartCount > 99 ? "99+" : cartCount}
-            </span>
-          )}
-        </Link>
+            {cartCount > 0 && (
+              <span className={styles.cartCount}>
+                {cartCount > 99 ? "99+" : cartCount}
+              </span>
+            )}
+          </Link>
 
-        <button
-          type="button"
-          className={`${styles.menuButton} ${
-            isMenuOpen ? styles.menuButtonOpen : ""
-          }`}
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={isMenuOpen}
-          aria-controls="main-navigation"
-        >
-          <span className={styles.menuLine}></span>
-          <span className={styles.menuLine}></span>
-          <span className={styles.menuLine}></span>
-        </button>
+          <button
+            type="button"
+            className={`${styles.menuButton} ${
+              isMenuOpen ? styles.menuButtonOpen : ""
+            }`}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMenuOpen}
+            aria-controls="main-navigation"
+          >
+            <span className={styles.menuLine}></span>
+            <span className={styles.menuLine}></span>
+            <span className={styles.menuLine}></span>
+          </button>
+        </div>
       </div>
     </header>
   );

@@ -1,0 +1,78 @@
+.quantity {
+  display: grid;
+  grid-template-columns: 58px 84px 58px;
+
+  width: 200px;
+  height: 58px;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 58px;
+  height: 58px;
+
+  padding: 0;
+
+  border: 1px solid #dddddd;
+  border-radius: 6px;
+
+  background-color: #ffffff;
+  color: #282828;
+
+  font-size: 28px;
+  font-weight: 400;
+
+  cursor: pointer;
+}
+
+.button:hover:not(:disabled) {
+  background-color: #f1f3f4;
+}
+
+.button:disabled {
+  color: #8b8b8b;
+
+  cursor: default;
+}
+
+.value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 58px;
+
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+
+  color: #282828;
+
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 130%;
+}
+
+@media (max-width: 480px) {
+  .quantity {
+    grid-template-columns: 48px 64px 48px;
+
+    width: 160px;
+    height: 48px;
+  }
+
+  .button {
+    width: 48px;
+    height: 48px;
+
+    font-size: 24px;
+  }
+
+  .value {
+    height: 48px;
+
+    font-size: 18px;
+  }
+}

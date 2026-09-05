@@ -1,0 +1,198 @@
+.orderForm {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  width: 548px;
+  min-height: 582px;
+
+  padding: 32px;
+
+  border-radius: 12px;
+
+  background-color: #f1f3f4;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.title {
+  margin: 0;
+
+  color: #282828;
+
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 110%;
+}
+
+.summary {
+  display: flex;
+  flex-direction: column;
+}
+
+.items {
+  margin: 0;
+
+  color: #8b8b8b;
+
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 130%;
+}
+
+.total {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.totalLabel {
+  color: #8b8b8b;
+
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 130%;
+}
+
+.totalPrice {
+  color: #282828;
+
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 110%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  position: relative;
+}
+
+.input {
+  width: 100%;
+  height: 58px;
+
+  padding: 16px 32px;
+
+  border: 1px solid #dddddd;
+  border-radius: 6px;
+  outline: none;
+
+  background-color: #ffffff;
+  color: #282828;
+
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 130%;
+}
+
+.input::placeholder {
+  color: #8b8b8b;
+}
+
+.input:focus {
+  border-color: #0d50ff;
+}
+
+.inputError {
+  border-color: #e74c3c;
+}
+
+.error {
+  position: absolute;
+  top: 59px;
+  left: 4px;
+
+  z-index: 2;
+
+  color: #e74c3c;
+
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.button {
+  width: 100%;
+  height: 58px;
+
+  padding: 16px 32px;
+
+  border: none;
+  border-radius: 6px;
+
+  background-color: #0d50ff;
+  color: #ffffff;
+
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 130%;
+
+  cursor: pointer;
+}
+
+.button:hover:not(:disabled) {
+  background-color: #282828;
+}
+
+.placedButton {
+  border: 1px solid #282828;
+
+  background-color: #ffffff;
+  color: #282828;
+}
+
+.button:disabled {
+  cursor: default;
+}
+
+@media (max-width: 1024px) {
+  .orderForm {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 32px;
+  }
+
+  .items,
+  .totalLabel {
+    font-size: 32px;
+  }
+
+  .totalPrice {
+    font-size: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .orderForm {
+    min-height: auto;
+
+    padding: 24px 16px;
+  }
+
+  .totalPrice {
+    font-size: 40px;
+  }
+
+  .input {
+    padding: 16px;
+  }
+}
