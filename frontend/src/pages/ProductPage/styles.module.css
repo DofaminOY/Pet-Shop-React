@@ -1,0 +1,39 @@
+.productPage {
+  margin-top: 40px;
+}
+
+.title {
+  margin: 0;
+
+  color: #282828;
+
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 110%;
+}
+
+@media (max-width: 1024px) {
+  .title {
+    font-size: 48px;
+  }
+}
+
+@media (max-width: 768px) {
+  .productPage {
+    margin-top: 32px;
+  }
+
+  .title {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .productPage {
+    margin-top: 24px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+}

@@ -1,7 +1,9 @@
+import styles from "./styles.module.css";
+
 function ProductPage() {
   return (
-    <section className="container">
-      <h1>Product</h1>
+    <section className={`${styles.productPage} container`}>
+      <h1 className={styles.title}>Product</h1>
     </section>
   );
 }
