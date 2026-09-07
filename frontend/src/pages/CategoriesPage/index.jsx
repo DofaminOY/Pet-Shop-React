@@ -1,35 +1,27 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 
 import Breadcrumbs from "../../components/Breadcrumbs";
-import ProductsGrid from "../../components/ProductsGrid";
+import CategoryCard from "../../components/CategoryCard";
 
-import { fetchCategoryById } from "../../redux/thunks";
+import { fetchCategories } from "../../redux/thunks";
 
 import styles from "./styles.module.css";
 
-function CategoryPage() {
-  const { id } = useParams();
-
+function CategoriesPage() {
   const dispatch = useDispatch();
 
-  const currentCategory = useSelector(
-    (state) => state.categories.currentCategory,
-  );
-  const categoryProducts = useSelector(
-    (state) => state.categories.categoryProducts,
-  );
-  const categoryStatus = useSelector(
-    (state) => state.categories.categoryStatus,
-  );
-  const categoryError = useSelector((state) => state.categories.categoryError);
+  const categories = useSelector((state) => state.categories.categories);
+
+  const status = useSelector((state) => state.categories.status);
+
+  const error = useSelector((state) => state.categories.error);
 
   useEffect(() => {
-    dispatch(fetchCategoryById(id));
-  }, [dispatch, id]);
-
-  const categoryTitle = currentCategory?.title || "Category";
+    if (status === "idle") {
+      dispatch(fetchCategories());
+    }
+  }, [dispatch, status]);
 
   return (
     <>
@@ -41,33 +33,31 @@ function CategoryPage() {
           },
           {
             label: "Categories",
-            to: "/categories",
-          },
-          {
-            label: categoryTitle,
           },
         ]}
       />
 
-      <section className={`${styles.categoryPage} container`}>
-        <h1 className={styles.title}>{categoryTitle}</h1>
+      <section className={`${styles.categoriesPage} container`}>
+        <h1 className={styles.title}>Categories</h1>
 
-        {(categoryStatus === "idle" || categoryStatus === "loading") && (
-          <p className={styles.message}>Loading products...</p>
+        {status === "loading" && (
+          <p className={styles.message}>Loading categories...</p>
         )}
 
-        {categoryStatus === "failed" && (
-          <p className={styles.message}>
-            Failed to load category: {categoryError}
-          </p>
+        {status === "failed" && (
+          <p className={styles.message}>Failed to load categories: {error}</p>
         )}
 
-        {categoryStatus === "succeeded" && (
-          <ProductsGrid products={categoryProducts} />
+        {status === "succeeded" && (
+          <div className={styles.categoriesGrid}>
+            {categories.map((category) => (
+              <CategoryCard key={category.id} category={category} />
+            ))}
+          </div>
         )}
       </section>
     </>
   );
 }
 
-export default CategoryPage;
+export default CategoriesPage;

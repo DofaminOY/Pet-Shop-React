@@ -1,0 +1,211 @@
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+
+  width: fit-content;
+  max-width: 100%;
+}
+
+.priceFilter {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  width: 309px;
+  height: 36px;
+}
+
+.discountFilter {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  width: 234px;
+  height: 36px;
+
+  cursor: pointer;
+}
+
+.sortFilter {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  width: 285px;
+  height: 36px;
+}
+
+.label {
+  flex-shrink: 0;
+
+  color: #282828;
+
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 130%;
+}
+
+.priceInput {
+  box-sizing: border-box;
+
+  width: 112px;
+  height: 36px;
+
+  padding: 8px 16px;
+
+  border: 1px solid #dddddd;
+  border-radius: 6px;
+  outline: none;
+
+  background-color: #ffffff;
+  color: #282828;
+
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 126%;
+}
+
+.priceInput::placeholder {
+  color: #8b8b8b;
+}
+
+.priceInput:focus {
+  border-color: #0d50ff;
+}
+
+/* Убираем стандартные стрелки у числовых полей */
+.priceInput::-webkit-outer-spin-button,
+.priceInput::-webkit-inner-spin-button {
+  margin: 0;
+
+  appearance: none;
+}
+
+.priceInput[type="number"] {
+  appearance: textfield;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 36px;
+  height: 36px;
+  margin: 0;
+
+  appearance: none;
+
+  border: 1px solid #dddddd;
+  border-radius: 6px;
+
+  background-color: #ffffff;
+
+  cursor: pointer;
+}
+
+.checkbox:checked {
+  border-color: #0d50ff;
+
+  background-color: #0d50ff;
+}
+
+.checkbox:checked::after {
+  content: "✓";
+
+  color: #ffffff;
+
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.select {
+  box-sizing: border-box;
+
+  width: 200px;
+  height: 36px;
+
+  padding: 6px 8px 6px 16px;
+
+  border: 1px solid #dddddd;
+  border-radius: 6px;
+  outline: none;
+
+  background-color: #ffffff;
+  color: #282828;
+
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 126%;
+
+  cursor: pointer;
+}
+
+.select:focus {
+  border-color: #0d50ff;
+}
+
+@media (max-width: 1024px) {
+  .filters {
+    flex-wrap: wrap;
+    gap: 24px 32px;
+
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .priceFilter,
+  .discountFilter,
+  .sortFilter {
+    width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .priceFilter {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+
+    width: 100%;
+    height: auto;
+  }
+
+  .priceFilter .label {
+    grid-column: 1 / -1;
+  }
+
+  .priceInput {
+    width: 100%;
+  }
+
+  .sortFilter {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+
+    width: 100%;
+    height: auto;
+  }
+
+  .select {
+    width: 100%;
+  }
+
+  .label {
+    font-size: 18px;
+  }
+}
