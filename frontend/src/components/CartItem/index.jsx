@@ -4,24 +4,29 @@ import QuantityControl from "../QuantityControl";
 
 import { removeFromCart } from "../../redux/cartSlice";
 
+import {
+  getDiscountPercent,
+  getProductPrice,
+  hasProductDiscount,
+} from "../../utils/productPrice";
+
 import styles from "./styles.module.css";
 
 function CartItem({ item }) {
   const dispatch = useDispatch();
 
-  const hasDiscount =
-    item.discont_price !== null &&
-    item.discont_price !== undefined &&
-    Number(item.discont_price) < Number(item.price);
-
-  const currentPrice = hasDiscount
-    ? Number(item.discont_price)
-    : Number(item.price);
+  const hasDiscount = hasProductDiscount(item);
+  const currentPrice = getProductPrice(item);
+  const discountPercent = getDiscountPercent(item);
 
   return (
     <article className={styles.cartItem}>
       <div className={styles.imageWrapper}>
         <img src={item.image} alt={item.title} className={styles.image} />
+
+        {hasDiscount && (
+          <span className={styles.discountBadge}>-{discountPercent}%</span>
+        )}
       </div>
 
       <div className={styles.content}>

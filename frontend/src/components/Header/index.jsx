@@ -170,6 +170,7 @@ function Header() {
               className={styles.burger}
               onClick={() => setIsMenuOpen((current) => !current)}
               aria-label="Open menu"
+              aria-expanded={isMenuOpen}
             >
               <span />
               <span />

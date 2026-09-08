@@ -14,6 +14,8 @@
 }
 
 .imageWrapper {
+  position: relative;
+
   width: 200px;
   height: 180px;
 
@@ -27,6 +29,27 @@
   height: 100%;
 
   object-fit: cover;
+}
+
+.discountBadge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 4px 8px;
+
+  border-radius: 6px;
+
+  background-color: #0d50ff;
+  color: #ffffff;
+
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 126%;
 }
 
 .content {
@@ -123,6 +146,13 @@
     height: 180px;
   }
 
+  .discountBadge {
+    top: 12px;
+    right: 12px;
+
+    font-size: 14px;
+  }
+
   .content {
     padding: 24px;
   }
@@ -149,6 +179,13 @@
 
     border-right: none;
     border-bottom: 1px solid #dddddd;
+  }
+
+  .discountBadge {
+    top: 16px;
+    right: 16px;
+
+    font-size: 16px;
   }
 
   .content {
