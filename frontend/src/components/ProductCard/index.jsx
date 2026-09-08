@@ -1,34 +1,44 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { addToCart } from "../../redux/cartSlice";
+
+import {
+  getDiscountPercent,
+  getProductPrice,
+  hasProductDiscount,
+} from "../../utils/productPrice";
 
 import styles from "./styles.module.css";
 
 function ProductCard({ product }) {
   const dispatch = useDispatch();
 
-  const isInCart = useSelector((state) =>
-    state.cart.items.some((item) => item.id === product.id),
-  );
+  const [isAdded, setIsAdded] = useState(false);
 
-  const hasDiscount =
-    product.discont_price !== null &&
-    product.discont_price !== undefined &&
-    Number(product.discont_price) < Number(product.price);
+  const hasDiscount = hasProductDiscount(product);
+  const currentPrice = getProductPrice(product);
+  const discountPercent = getDiscountPercent(product);
 
-  const currentPrice = hasDiscount ? product.discont_price : product.price;
+  useEffect(() => {
+    if (!isAdded) {
+      return undefined;
+    }
 
-  const discountPercent = hasDiscount
-    ? Math.round(
-        ((Number(product.price) - Number(product.discont_price)) /
-          Number(product.price)) *
-          100,
-      )
-    : 0;
+    const timer = setTimeout(() => {
+      setIsAdded(false);
+    }, 1500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [isAdded]);
 
   const handleAddToCart = () => {
     dispatch(addToCart(product));
+
+    setIsAdded(true);
   };
 
   return (
@@ -61,11 +71,11 @@ function ProductCard({ product }) {
 
       <button
         type="button"
-        className={`${styles.addButton} ${isInCart ? styles.addedButton : ""}`}
+        className={`${styles.addButton} ${isAdded ? styles.addedButton : ""}`}
         onClick={handleAddToCart}
-        disabled={isInCart}
+        disabled={isAdded}
       >
-        {isInCart ? "Added" : "Add to cart"}
+        {isAdded ? "Added" : "Add to cart"}
       </button>
     </article>
   );
