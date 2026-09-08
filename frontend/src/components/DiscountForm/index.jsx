@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
@@ -6,18 +7,21 @@ import discountPets from "../../assets/images/discount-pets.svg";
 
 import FormStatusModal from "../FormStatusModal";
 
+import { setCustomer } from "../../redux/customerSlice";
+
 import styles from "./styles.module.css";
 
 const SALE_URL = "http://localhost:3333/sale/send";
 
-// Проверка имени:
-// буквы, пробел, дефис и апостроф
-const NAME_PATTERN = /^[\p{L}\p{M}][\p{L}\p{M}\s'-]{1,39}$/u;
+const CUSTOMER_STORAGE_KEY = "petShopCustomer";
 
-// Базовая проверка формата электронной почты
+const NAME_PATTERN = /^[\p{L}\p{M}\p{N}][\p{L}\p{M}\p{N}\s'._-]{1,39}$/u;
+
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 function DiscountForm() {
+  const dispatch = useDispatch();
+
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const [notification, setNotification] = useState(null);
@@ -44,7 +48,6 @@ function DiscountForm() {
     });
   };
 
-  // Проверяем номер телефона без чрезмерно жесткого формата
   const validatePhone = (value) => {
     const trimmedValue = value.trim();
 
@@ -52,11 +55,7 @@ function DiscountForm() {
 
     const digits = trimmedValue.replace(/\D/g, "");
 
-    if (!allowedCharacters) {
-      return "Please enter a valid phone number.";
-    }
-
-    if (digits.length < 7 || digits.length > 15) {
+    if (!allowedCharacters || digits.length < 7 || digits.length > 15) {
       return "Please enter a valid phone number.";
     }
 
@@ -65,28 +64,56 @@ function DiscountForm() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(SALE_URL, data);
+      const response = await axios.post(SALE_URL, {
+        name: data.name.trim(),
+        phone: data.phone.trim(),
+        email: data.email.trim(),
+      });
 
-      // Проверяем не только HTTP-запрос,
-      // но и ответ самого backend
-      if (response.data?.status && response.data.status !== "OK") {
-        throw new Error("Request was not processed");
+      if (response.data?.status !== "OK") {
+        throw new Error(response.data?.message || "Request was not processed.");
+      }
+
+      const customer = response.data.customer;
+
+      if (customer) {
+        dispatch(setCustomer(customer));
+
+        localStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(customer));
       }
 
       reset();
-
       setIsSubmitted(true);
 
+      if (response.data.eligibleForFirstOrderDiscount) {
+        showNotification({
+          title: "5% discount activated!",
+          message: "Your first order will receive an additional 5% discount.",
+        });
+
+        return;
+      }
+
       showNotification({
-        title: "Success!",
-        message: "Your discount request has been submitted successfully.",
-        duration: 4000,
+        title: "Discount already used",
+        message:
+          "Your account was found, but the 5% first-order discount has already been used.",
       });
-    } catch {
+    } catch (error) {
+      const backendMessage = error.response?.data?.message;
+
+      if (error.response?.status === 409 || error.response?.status === 400) {
+        showNotification({
+          title: "Check your data",
+          message: backendMessage || "Please check the entered information.",
+        });
+
+        return;
+      }
+
       showNotification({
         title: "Something went wrong",
-        message: "The discount request could not be sent. Please try again.",
-        duration: 4000,
+        message: "The request could not be sent. Please try again.",
       });
     }
   };
@@ -98,15 +125,13 @@ function DiscountForm() {
       formErrors.email?.message,
     ].filter(Boolean);
 
-    const message =
-      errorMessages.length === 1
-        ? errorMessages[0]
-        : "Please check the entered information. Some fields contain invalid data.";
-
     showNotification({
       title: "Check your data",
-      message,
-      duration: 4000,
+
+      message:
+        errorMessages.length === 1
+          ? errorMessages[0]
+          : "Please check the entered information. Some fields contain invalid data.",
     });
   };
 
@@ -129,20 +154,22 @@ function DiscountForm() {
               type="text"
               placeholder="Name"
               autoComplete="name"
-              aria-invalid={errors.name ? "true" : "false"}
               className={`${styles.input} ${
                 errors.name ? styles.inputError : ""
               }`}
               {...register("name", {
                 required: "Please enter your name.",
+
                 minLength: {
                   value: 2,
                   message: "Name must contain at least 2 characters.",
                 },
+
                 maxLength: {
                   value: 40,
                   message: "Name must contain no more than 40 characters.",
                 },
+
                 pattern: {
                   value: NAME_PATTERN,
                   message: "Please enter a valid name.",
@@ -154,7 +181,6 @@ function DiscountForm() {
               type="tel"
               placeholder="Phone number"
               autoComplete="tel"
-              aria-invalid={errors.phone ? "true" : "false"}
               className={`${styles.input} ${
                 errors.phone ? styles.inputError : ""
               }`}
@@ -168,12 +194,12 @@ function DiscountForm() {
               type="email"
               placeholder="Email"
               autoComplete="email"
-              aria-invalid={errors.email ? "true" : "false"}
               className={`${styles.input} ${
                 errors.email ? styles.inputError : ""
               }`}
               {...register("email", {
                 required: "Please enter your email.",
+
                 pattern: {
                   value: EMAIL_PATTERN,
                   message: "Please enter a valid email address.",

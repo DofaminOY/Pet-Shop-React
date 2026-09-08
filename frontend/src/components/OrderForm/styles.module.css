@@ -1,10 +1,5 @@
-.orderForm {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-
-  width: 548px;
-  min-height: 582px;
+.orderDetails {
+  width: 100%;
 
   padding: 32px;
 
@@ -13,14 +8,8 @@
   background-color: #f1f3f4;
 }
 
-.details {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
 .title {
-  margin: 0;
+  margin: 0 0 16px;
 
   color: #282828;
 
@@ -29,58 +18,81 @@
   line-height: 110%;
 }
 
-.summary {
+.itemsCount {
+  margin: 0 0 16px;
+
+  color: #8b8b8b;
+
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 130%;
+}
+
+.priceBlock {
   display: flex;
   flex-direction: column;
+  gap: 12px;
+
+  margin-bottom: 24px;
 }
 
-.items {
-  margin: 0;
-
-  color: #8b8b8b;
-
-  font-size: 40px;
-  font-weight: 500;
-  line-height: 130%;
-}
-
-.total {
+.priceRow {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
-  gap: 32px;
-}
+  gap: 16px;
 
-.totalLabel {
   color: #8b8b8b;
 
-  font-size: 40px;
+  font-size: 20px;
   font-weight: 500;
-  line-height: 130%;
 }
 
-.totalPrice {
+.priceRow strong {
   color: #282828;
+}
 
+.discountRow {
+  color: #0d50ff;
+}
+
+.discountRow strong {
+  color: #0d50ff;
+}
+
+.totalRow {
+  margin-top: 8px;
+
+  font-size: 40px;
+}
+
+.totalRow strong {
   font-size: 64px;
   font-weight: 700;
   line-height: 110%;
 }
 
+.discountInfo,
+.discountUsed {
+  margin: 0;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 130%;
+}
+
+.discountInfo {
+  color: #0d50ff;
+}
+
+.discountUsed {
+  color: #8b8b8b;
+}
+
 .form {
   display: flex;
   flex-direction: column;
-  gap: 32px;
-}
-
-.inputs {
-  display: flex;
-  flex-direction: column;
   gap: 16px;
-}
-
-.field {
-  position: relative;
 }
 
 .input {
@@ -96,103 +108,87 @@
   background-color: #ffffff;
   color: #282828;
 
-  font-size: 20px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
   font-weight: 500;
-  line-height: 130%;
-}
-
-.input::placeholder {
-  color: #8b8b8b;
 }
 
 .input:focus {
   border-color: #0d50ff;
 }
 
+.input:read-only {
+  color: #282828;
+  cursor: default;
+}
+
 .inputError {
-  border-color: #e74c3c;
+  border-color: #d32f2f;
 }
 
 .error {
-  position: absolute;
-  top: 59px;
-  left: 4px;
+  display: block;
 
-  z-index: 2;
+  margin-top: 4px;
 
-  color: #e74c3c;
+  color: #d32f2f;
 
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 12px;
 }
 
-.button {
+.orderButton {
   width: 100%;
   height: 58px;
 
-  padding: 16px 32px;
-
-  border: none;
+  border: 0;
   border-radius: 6px;
 
   background-color: #0d50ff;
   color: #ffffff;
 
+  font-family: "Montserrat", sans-serif;
   font-size: 20px;
   font-weight: 600;
-  line-height: 130%;
 
   cursor: pointer;
 }
 
-.button:hover:not(:disabled) {
+.orderButton:hover:not(:disabled) {
   background-color: #282828;
 }
 
-.placedButton {
-  border: 1px solid #282828;
-
-  background-color: #ffffff;
-  color: #282828;
-}
-
-.button:disabled {
-  cursor: default;
-}
-
-@media (max-width: 1024px) {
-  .orderForm {
-    width: 100%;
-  }
-}
-
 @media (max-width: 768px) {
+  .orderDetails {
+    padding: 24px;
+  }
+
   .title {
     font-size: 32px;
   }
 
-  .items,
-  .totalLabel {
-    font-size: 32px;
+  .itemsCount {
+    font-size: 28px;
   }
 
-  .totalPrice {
+  .totalRow strong {
     font-size: 48px;
   }
 }
 
 @media (max-width: 480px) {
-  .orderForm {
-    min-height: auto;
-
-    padding: 24px 16px;
+  .orderDetails {
+    padding: 20px;
   }
 
-  .totalPrice {
+  .title {
+    font-size: 28px;
+  }
+
+  .totalRow {
+    font-size: 28px;
+  }
+
+  .totalRow strong {
     font-size: 40px;
-  }
-
-  .input {
-    padding: 16px;
   }
 }

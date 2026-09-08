@@ -78,7 +78,7 @@ function CartPage() {
               itemsCount={itemsCount}
               totalPrice={totalPrice}
               isOrderPlaced={isOrderPlaced}
-              onSuccess={handleOrderSuccess}
+              onOrderSuccess={handleOrderSuccess}
             />
           </div>
         )}
