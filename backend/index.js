@@ -5,6 +5,7 @@ const categories = require("./routes/categories");
 const products = require("./routes/products");
 const sale = require("./routes/sale");
 const order = require("./routes/order");
+const dev = require("./routes/dev");
 
 const sequelize = require("./database/database");
 
@@ -41,6 +42,9 @@ app.use("/categories", categories);
 app.use("/products", products);
 app.use("/sale", sale);
 app.use("/order", order);
+
+// Служебные маршруты для разработки
+app.use("/dev", dev);
 
 const start = async () => {
   try {

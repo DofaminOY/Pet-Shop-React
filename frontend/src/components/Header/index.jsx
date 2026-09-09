@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
+import DevCustomerReset from "../DevCustomerReset";
 import logo from "../../assets/icons/logo.svg";
 import cartIcon from "../../assets/icons/cart.svg";
 
@@ -113,28 +113,30 @@ function Header() {
             {customer && (
               <div className={styles.account}>
                 <div className={styles.emailWrapper} title={customer.email}>
-                  <svg
-                    className={styles.userIcon}
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <circle
-                      cx="12"
-                      cy="8"
-                      r="4"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    />
+                  <DevCustomerReset onCleared={handleLogout}>
+                    <svg
+                      className={styles.userIcon}
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <circle
+                        cx="12"
+                        cy="8"
+                        r="4"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      />
 
-                    <path
-                      d="M4 21c0-4.2 3.6-7 8-7s8 2.8 8 7"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                  </svg>
+                      <path
+                        d="M4 21c0-4.2 3.6-7 8-7s8 2.8 8 7"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </DevCustomerReset>
 
                   <span className={styles.email}>{customer.email}</span>
                 </div>
