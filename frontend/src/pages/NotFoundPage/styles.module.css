@@ -1,0 +1,159 @@
+.notFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding-top: 80px;
+  padding-bottom: 80px;
+
+  text-align: center;
+}
+
+.errorCode {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+
+  height: 270px;
+}
+
+.number {
+  color: #0d50ff;
+
+  font-family: "Montserrat", sans-serif;
+  font-size: 200px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.dog {
+  display: block;
+
+  width: 150px;
+  height: 180px;
+
+  object-fit: contain;
+}
+
+.title {
+  margin: 16px 0;
+
+  color: #282828;
+
+  font-family: "Montserrat", sans-serif;
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 110%;
+}
+
+.text {
+  margin: 0 0 32px;
+
+  color: #8b8b8b;
+
+  font-family: "Montserrat", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 130%;
+}
+
+.homeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 209px;
+  height: 58px;
+
+  padding: 16px 32px;
+
+  border-radius: 6px;
+
+  background-color: #0d50ff;
+  color: #ffffff;
+
+  font-family: "Montserrat", sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 130%;
+
+  text-decoration: none;
+
+  transition: background-color 0.2s ease;
+}
+
+.homeButton:hover {
+  background-color: #282828;
+}
+
+@media (max-width: 768px) {
+  .notFound {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+
+  .errorCode {
+    gap: 10px;
+
+    height: 210px;
+  }
+
+  .number {
+    font-size: 150px;
+  }
+
+  .dog {
+    width: 110px;
+    height: 140px;
+  }
+
+  .title {
+    font-size: 48px;
+  }
+
+  .text {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .notFound {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .errorCode {
+    gap: 6px;
+
+    height: 150px;
+  }
+
+  .number {
+    font-size: 100px;
+  }
+
+  .dog {
+    width: 76px;
+    height: 100px;
+  }
+
+  .title {
+    margin-top: 20px;
+
+    font-size: 36px;
+  }
+
+  .text {
+    margin-bottom: 24px;
+
+    font-size: 16px;
+  }
+
+  .homeButton {
+    min-width: 180px;
+    height: 52px;
+
+    font-size: 18px;
+  }
+}
