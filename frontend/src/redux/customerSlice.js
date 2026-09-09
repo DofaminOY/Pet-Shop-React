@@ -1,19 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const STORAGE_KEY = "petShopCustomer";
-
-function getSavedCustomer() {
-  try {
-    const savedCustomer = localStorage.getItem(STORAGE_KEY);
-
-    return savedCustomer ? JSON.parse(savedCustomer) : null;
-  } catch {
-    return null;
-  }
-}
+import { getStoredCustomer } from "../utils/customerStorage";
 
 const initialState = {
-  customer: getSavedCustomer(),
+  customer: getStoredCustomer(),
 };
 
 const customerSlice = createSlice({

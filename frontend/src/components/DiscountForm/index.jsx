@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
@@ -9,11 +9,14 @@ import FormStatusModal from "../FormStatusModal";
 
 import { setCustomer } from "../../redux/customerSlice";
 
+import {
+  getStoredCustomer,
+  saveStoredCustomer,
+} from "../../utils/customerStorage";
+
 import styles from "./styles.module.css";
 
 const SALE_URL = "http://localhost:3333/sale/send";
-
-const CUSTOMER_STORAGE_KEY = "petShopCustomer";
 
 const NAME_PATTERN = /^[\p{L}\p{M}\p{N}][\p{L}\p{M}\p{N}\s'._-]{1,39}$/u;
 
@@ -22,7 +25,7 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 function DiscountForm() {
   const dispatch = useDispatch();
 
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const customer = useSelector((state) => state.customer.customer);
 
   const [notification, setNotification] = useState(null);
 
@@ -63,6 +66,23 @@ function DiscountForm() {
   };
 
   const onSubmit = async (data) => {
+    const storedCustomer = getStoredCustomer();
+
+    const activeCustomer = storedCustomer || customer;
+
+    if (activeCustomer) {
+      if (!customer) {
+        dispatch(setCustomer(activeCustomer));
+      }
+
+      showNotification({
+        title: "You're already signed in",
+        message: `You're signed in as ${activeCustomer.name}. Your account is already active.`,
+      });
+
+      return;
+    }
+
     try {
       const response = await axios.post(SALE_URL, {
         name: data.name.trim(),
@@ -74,30 +94,52 @@ function DiscountForm() {
         throw new Error(response.data?.message || "Request was not processed.");
       }
 
-      const customer = response.data.customer;
+      const registeredCustomer = response.data.customer;
 
-      if (customer) {
-        dispatch(setCustomer(customer));
+      if (registeredCustomer) {
+        dispatch(setCustomer(registeredCustomer));
 
-        localStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(customer));
+        saveStoredCustomer(registeredCustomer);
       }
 
       reset();
-      setIsSubmitted(true);
 
-      if (response.data.eligibleForFirstOrderDiscount) {
+      const customerName = registeredCustomer?.name || data.name.trim();
+
+      if (response.data.mode === "registered") {
         showNotification({
           title: "5% discount activated!",
-          message: "Your first order will receive an additional 5% discount.",
+          message: `Welcome, ${customerName}! Your first order will receive an additional 5% discount.`,
+        });
+
+        return;
+      }
+
+      if (
+        response.data.mode === "signedIn" &&
+        response.data.eligibleForFirstOrderDiscount
+      ) {
+        showNotification({
+          title: `Welcome back, ${customerName}!`,
+          message:
+            "You're signed in. Your 5% first-order discount is still available.",
+        });
+
+        return;
+      }
+
+      if (response.data.mode === "signedIn") {
+        showNotification({
+          title: `Welcome back, ${customerName}!`,
+          message: "Your account has been found and you're now signed in.",
         });
 
         return;
       }
 
       showNotification({
-        title: "Discount already used",
-        message:
-          "Your account was found, but the 5% first-order discount has already been used.",
+        title: `Welcome, ${customerName}!`,
+        message: "Your account is now active.",
       });
     } catch (error) {
       const backendMessage = error.response?.data?.message;
@@ -209,16 +251,10 @@ function DiscountForm() {
 
             <button
               type="submit"
-              disabled={isSubmitting || isSubmitted}
-              className={`${styles.button} ${
-                isSubmitted ? styles.buttonSubmitted : ""
-              }`}
+              disabled={isSubmitting}
+              className={styles.button}
             >
-              {isSubmitted
-                ? "Request Submitted"
-                : isSubmitting
-                  ? "Sending..."
-                  : "Get a discount"}
+              {isSubmitting ? "Checking..." : "Get a discount"}
             </button>
           </form>
         </div>

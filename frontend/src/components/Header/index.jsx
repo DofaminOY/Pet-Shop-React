@@ -9,9 +9,12 @@ import RegistrationModal from "../RegistrationModal";
 
 import { logoutCustomer, setCustomer } from "../../redux/customerSlice";
 
-import styles from "./styles.module.css";
+import {
+  clearStoredCustomer,
+  saveStoredCustomer,
+} from "../../utils/customerStorage";
 
-const CUSTOMER_STORAGE_KEY = "petShopCustomer";
+import styles from "./styles.module.css";
 
 function Header() {
   const dispatch = useDispatch();
@@ -39,18 +42,13 @@ function Header() {
   const handleRegistrationSuccess = (registeredCustomer) => {
     dispatch(setCustomer(registeredCustomer));
 
-    localStorage.setItem(
-      CUSTOMER_STORAGE_KEY,
-      JSON.stringify(registeredCustomer),
-    );
-
-    setIsRegistrationOpen(false);
+    saveStoredCustomer(registeredCustomer);
   };
 
   const handleLogout = () => {
     dispatch(logoutCustomer());
 
-    localStorage.removeItem(CUSTOMER_STORAGE_KEY);
+    clearStoredCustomer();
 
     closeMenu();
   };
@@ -240,6 +238,7 @@ function Header() {
         isOpen={isRegistrationOpen}
         onClose={() => setIsRegistrationOpen(false)}
         onSuccess={handleRegistrationSuccess}
+        activeCustomer={customer}
       />
     </>
   );

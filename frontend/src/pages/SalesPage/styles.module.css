@@ -1,0 +1,57 @@
+.salesPage {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  margin-top: 40px;
+}
+
+.title {
+  margin: 0;
+
+  color: #282828;
+
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 110%;
+}
+
+.message {
+  margin: 0;
+
+  color: #8b8b8b;
+
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 130%;
+}
+
+@media (max-width: 1024px) {
+  .title {
+    font-size: 48px;
+  }
+}
+
+@media (max-width: 768px) {
+  .salesPage {
+    gap: 32px;
+
+    margin-top: 32px;
+  }
+
+  .title {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .salesPage {
+    gap: 24px;
+
+    margin-top: 24px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+}
