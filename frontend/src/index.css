@@ -10,9 +10,11 @@ html {
 
 body {
   margin: 0;
-  font-family: "Montserrat", sans-serif;
-  color: #282828;
-  background-color: #ffffff;
+
+  font-family: var(--font-family-main);
+
+  color: var(--text-color);
+  background-color: var(--white-color);
 }
 
 a {

@@ -15,10 +15,11 @@
   max-width: 1360px;
   margin: 0;
 
+  color: var(--white-color);
+
   font-size: 96px;
-  font-weight: 700;
-  line-height: 110%;
-  color: #ffffff;
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-heading);
 }
 
 .button {
@@ -31,14 +32,14 @@
   margin-top: 40px;
   padding: 16px 56px;
 
-  border-radius: 6px;
+  border-radius: var(--radius-small);
 
-  background-color: #0d50ff;
-  color: #ffffff;
+  background-color: var(--primary-color);
+  color: var(--white-color);
 
   font-size: 20px;
-  font-weight: 600;
-  line-height: 130%;
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-text);
 }
 
 /* Планшет */

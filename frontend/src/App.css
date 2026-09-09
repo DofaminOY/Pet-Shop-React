@@ -1,4 +1,5 @@
 :root {
+  /* Основные цвета макета */
   --primary-color: #0d50ff;
   --text-color: #282828;
   --gray-color: #8b8b8b;
@@ -6,9 +7,23 @@
   --light-gray-color: #f1f3f4;
   --white-color: #ffffff;
 
+  /* Типографика */
+  --font-family-main: "Montserrat", sans-serif;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-heading: 110%;
+  --line-height-text: 130%;
+  --line-height-control: 126%;
+
+  /* Размеры страницы */
   --page-width: 1440px;
   --container-width: 1360px;
 
+  /* Скругления */
   --radius-small: 6px;
   --radius-large: 12px;
 

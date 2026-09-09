@@ -19,7 +19,7 @@
   width: 16px;
   height: 1px;
 
-  background-color: #dddddd;
+  background-color: var(--border-color);
 }
 
 .link {
@@ -30,14 +30,14 @@
   height: 36px;
   padding: 8px 16px;
 
-  border: 1px solid #dddddd;
-  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-small);
 
-  color: #8b8b8b;
+  color: var(--gray-color);
 
   font-size: 16px;
-  font-weight: 500;
-  line-height: 126%;
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-control);
 
   white-space: nowrap;
 
@@ -47,11 +47,11 @@
 }
 
 .link:hover {
-  background-color: #f1f3f4;
+  background-color: var(--light-gray-color);
 }
 
 .active {
-  color: #282828;
+  color: var(--text-color);
 }
 
 /* Мобильные устройства */
