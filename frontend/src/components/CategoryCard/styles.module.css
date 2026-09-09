@@ -1,39 +1,69 @@
 .categoryCard {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 16px;
 
+  min-width: 0;
   width: 100%;
-
-  color: var(--text-color);
 }
 
 .image {
+  display: block;
+
   width: 100%;
+  height: auto;
   aspect-ratio: 316 / 350;
 
-  border-radius: var(--radius-large);
-
   object-fit: cover;
+
+  border-radius: var(--radius-large);
 }
 
 .title {
+  min-width: 0;
+  width: 100%;
   margin: 0;
-
-  overflow: hidden;
 
   color: var(--text-color);
 
   font-size: 20px;
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-text);
+
   text-align: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: break-word;
 }
 
+/* Планшет */
+@media (max-width: 1024px) {
+  .categoryCard {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .image {
+    width: 100%;
+  }
+}
+
+/* Мобильные устройства */
 @media (max-width: 768px) {
+  .categoryCard {
+    gap: 12px;
+  }
+
   .title {
     font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .categoryCard {
+    width: 100%;
+  }
+
+  .title {
+    font-size: 20px;
   }
 }

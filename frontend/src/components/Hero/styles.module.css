@@ -1,8 +1,9 @@
 .hero {
   width: 100%;
-  height: min(41.6667vw, 600px);
 
-  background-position: center center;
+  aspect-ratio: 12 / 5;
+
+  background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -24,14 +25,16 @@
 
 .button {
   display: inline-flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
   min-width: 218px;
   height: 58px;
+
   margin-top: 40px;
   padding: 16px 56px;
 
+  border: none;
   border-radius: var(--radius-small);
 
   background-color: var(--primary-color);
@@ -40,12 +43,20 @@
   font-size: 20px;
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-text);
+
+  cursor: pointer;
+
+  transition: background-color 0.2s ease;
+}
+
+.button:hover {
+  background-color: var(--text-color);
 }
 
 /* Планшет */
 @media (max-width: 1024px) {
   .content {
-    padding-top: 60px;
+    padding-top: 56px;
   }
 
   .title {
@@ -53,31 +64,12 @@
   }
 }
 
-/* Мобильные устройства */
+/* Небольшие планшеты */
 @media (max-width: 768px) {
   .hero {
-    height: 420px;
+    aspect-ratio: 16 / 9;
 
-    /* На мобильных устройствах допускаем контролируемое кадрирование */
-    background-position: center center;
-  }
-
-  .content {
-    padding-top: 48px;
-  }
-
-  .title {
-    font-size: 48px;
-  }
-
-  .button {
-    margin-top: 32px;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero {
-    height: 400px;
+    background-position: center;
   }
 
   .content {
@@ -85,11 +77,68 @@
   }
 
   .title {
-    font-size: 40px;
+    max-width: 90%;
+
+    font-size: 44px;
   }
 
   .button {
-    min-width: 170px;
-    padding: 16px 32px;
+    height: 54px;
+
+    margin-top: 24px;
+    padding: 14px 40px;
+  }
+}
+
+/* Переход между планшетом и телефоном */
+@media (max-width: 600px) {
+  .content {
+    padding-top: 28px;
+  }
+
+  .title {
+    max-width: 92%;
+
+    font-size: 36px;
+  }
+
+  .button {
+    min-width: 180px;
+    height: 50px;
+
+    margin-top: 20px;
+    padding: 12px 32px;
+
+    font-size: 18px;
+  }
+}
+
+/* Мобильные устройства */
+@media (max-width: 480px) {
+  .hero {
+    aspect-ratio: 16 / 9;
+
+    background-position: 55% center;
+  }
+
+  .content {
+    padding-top: 20px;
+  }
+
+  .title {
+    max-width: 95%;
+
+    font-size: 28px;
+    line-height: 115%;
+  }
+
+  .button {
+    min-width: 160px;
+    height: 46px;
+
+    margin-top: 18px;
+    padding: 10px 28px;
+
+    font-size: 16px;
   }
 }
