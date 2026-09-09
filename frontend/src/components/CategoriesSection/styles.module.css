@@ -14,10 +14,6 @@
   width: 100%;
 }
 
-.message {
-  composes: mutedMessage from "../../styles/shared.module.css";
-}
-
 /* Планшет */
 @media (max-width: 1024px) {
   .categoriesSection {
