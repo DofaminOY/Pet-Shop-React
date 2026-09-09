@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -25,7 +25,11 @@ function ProductPage() {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState("");
 
+  const descriptionRef = useRef(null);
+
   const [isDescriptionOpen, setIsDescriptionOpen] = useState(false);
+  const [isDescriptionOverflowing, setIsDescriptionOverflowing] =
+    useState(false);
 
   useEffect(() => {
     async function loadProduct() {
@@ -34,6 +38,7 @@ function ProductPage() {
         setError("");
         setQuantity(1);
         setIsDescriptionOpen(false);
+        setIsDescriptionOverflowing(false);
 
         const response = await axios.get(`${BASE_URL}/products/${id}`);
 
@@ -89,6 +94,33 @@ function ProductPage() {
 
     loadProduct();
   }, [id]);
+
+  useEffect(() => {
+    const checkDescriptionOverflow = () => {
+      const descriptionElement = descriptionRef.current;
+
+      if (!descriptionElement || isDescriptionOpen) {
+        return;
+      }
+
+      // Проверяем, скрывает ли ограничение строк часть текста
+      const hasHiddenText =
+        descriptionElement.scrollHeight > descriptionElement.clientHeight + 1;
+
+      setIsDescriptionOverflowing(hasHiddenText);
+    };
+
+    // Ждем, пока браузер рассчитает реальные размеры текста
+    const frameId = requestAnimationFrame(checkDescriptionOverflow);
+
+    // Повторно проверяем при изменении ширины окна
+    window.addEventListener("resize", checkDescriptionOverflow);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      window.removeEventListener("resize", checkDescriptionOverflow);
+    };
+  }, [product?.description, isDescriptionOpen]);
 
   if (status === "loading") {
     return (
@@ -257,6 +289,7 @@ function ProductPage() {
               <h2 className={styles.descriptionTitle}>Description</h2>
 
               <p
+                ref={descriptionRef}
                 className={`${styles.descriptionText} ${
                   isDescriptionOpen ? styles.descriptionOpen : ""
                 }`}
@@ -264,15 +297,17 @@ function ProductPage() {
                 {product.description}
               </p>
 
-              <button
-                type="button"
-                className={styles.readMore}
-                onClick={() =>
-                  setIsDescriptionOpen((currentValue) => !currentValue)
-                }
-              >
-                {isDescriptionOpen ? "Read less" : "Read more"}
-              </button>
+              {isDescriptionOverflowing && (
+                <button
+                  type="button"
+                  className={styles.readMore}
+                  onClick={() =>
+                    setIsDescriptionOpen((currentValue) => !currentValue)
+                  }
+                >
+                  {isDescriptionOpen ? "Read less" : "Read more"}
+                </button>
+              )}
             </div>
           </div>
         </div>
