@@ -6,6 +6,11 @@
   --border-color: #dddddd;
   --light-gray-color: #f1f3f4;
   --white-color: #ffffff;
+  --success-color: #339933;
+  --error-color: #d32f2f;
+  --error-background-color: #fff1f1;
+  --primary-dark-color: #2451c6;
+  --danger-border-color: #ff8a8a;
 
   /* Типографика */
   --font-family-main: "Montserrat", sans-serif;
@@ -26,6 +31,9 @@
   /* Скругления */
   --radius-small: 6px;
   --radius-large: 12px;
+
+  /* Переходы */
+  --transition-fast: 0.2s ease;
 
   --hero-ratio: 12 / 5;
 }

@@ -4,17 +4,17 @@
   padding-top: 80px;
   padding-bottom: 80px;
 
-  background-color: #ffffff;
+  background-color: var(--white-color);
 }
 
 .title {
   margin: 0 0 40px;
 
-  color: #282828;
+  color: var(--text-color);
 
   font-size: 64px;
-  font-weight: 700;
-  line-height: 110%;
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-heading);
 }
 
 .contactsGrid {
@@ -35,27 +35,27 @@
 
   padding: 32px;
 
-  border-radius: 12px;
+  border-radius: var(--radius-large);
 
-  background-color: #f1f3f4;
+  background-color: var(--light-gray-color);
 }
 
 .label {
-  color: #8b8b8b;
+  color: var(--gray-color);
 
   font-size: 20px;
-  font-weight: 500;
-  line-height: 130%;
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-text);
 }
 
 .value {
   margin: 0;
 
-  color: #282828;
+  color: var(--text-color);
 
   font-size: 40px;
-  font-weight: 600;
-  line-height: 110%;
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-heading);
 }
 
 a.value {
@@ -63,7 +63,7 @@ a.value {
 }
 
 a.value:hover {
-  color: #0d50ff;
+  color: var(--primary-color);
 }
 
 .socials {
@@ -87,7 +87,7 @@ a.value:hover {
 
   overflow: hidden;
 
-  border-radius: 12px;
+  border-radius: var(--radius-large);
 }
 
 .map {

@@ -15,13 +15,7 @@
 }
 
 .message {
-  margin: 0;
-
-  color: #8b8b8b;
-
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 130%;
+  composes: mutedMessage from "../../styles/shared.module.css";
 }
 
 /* Планшет */

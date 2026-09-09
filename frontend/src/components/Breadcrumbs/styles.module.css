@@ -42,8 +42,8 @@
   white-space: nowrap;
 
   transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
+    background-color var(--transition-fast),
+    color var(--transition-fast);
 }
 
 .link:hover {
