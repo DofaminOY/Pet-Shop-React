@@ -1,14 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { getStoredCart } from "../utils/cartStorage";
+
+// При запуске приложения восстанавливаем корзину из localStorage
 const initialState = {
-  items: [],
+  items: getStoredCart(),
 };
 
 const cartSlice = createSlice({
   name: "cart",
+
   initialState,
+
   reducers: {
-    // Добавляем товар в корзину
     addToCart: (state, action) => {
       const product = action.payload;
 
@@ -26,30 +30,36 @@ const cartSlice = createSlice({
       }
     },
 
-    // Увеличиваем количество товара
+    removeFromCart: (state, action) => {
+      const productId = action.payload;
+
+      state.items = state.items.filter((item) => item.id !== productId);
+    },
+
     increaseQuantity: (state, action) => {
-      const product = state.items.find((item) => item.id === action.payload);
+      const productId = action.payload;
+
+      const product = state.items.find((item) => item.id === productId);
 
       if (product) {
         product.quantity += 1;
       }
     },
 
-    // Уменьшаем количество товара, но не ниже единицы
     decreaseQuantity: (state, action) => {
-      const product = state.items.find((item) => item.id === action.payload);
+      const productId = action.payload;
 
-      if (product && product.quantity > 1) {
+      const product = state.items.find((item) => item.id === productId);
+
+      if (!product) {
+        return;
+      }
+
+      if (product.quantity > 1) {
         product.quantity -= 1;
       }
     },
 
-    // Удаляем товар из корзины
-    removeFromCart: (state, action) => {
-      state.items = state.items.filter((item) => item.id !== action.payload);
-    },
-
-    // Полностью очищаем корзину
     clearCart: (state) => {
       state.items = [];
     },
@@ -58,9 +68,9 @@ const cartSlice = createSlice({
 
 export const {
   addToCart,
+  removeFromCart,
   increaseQuantity,
   decreaseQuantity,
-  removeFromCart,
   clearCart,
 } = cartSlice.actions;
 
