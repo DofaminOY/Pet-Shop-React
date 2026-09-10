@@ -27,6 +27,7 @@ function ProductCard({ product }) {
       return undefined;
     }
 
+    // Через 1.5 секунды снова разрешаем добавлять товар
     const timer = setTimeout(() => {
       setIsAdded(false);
     }, 1500);
@@ -37,6 +38,11 @@ function ProductCard({ product }) {
   }, [isAdded]);
 
   const handleAddToCart = () => {
+    // Пока отображается Added, повторное добавление блокируем
+    if (isAdded) {
+      return;
+    }
+
     dispatch(addToCart(product));
 
     setIsAdded(true);

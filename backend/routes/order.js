@@ -1,37 +1,10 @@
 const express = require("express");
 const { Op } = require("sequelize");
 
-const Customer = require("../database/models/customer");
 const Product = require("../database/models/product");
+const Customer = require("../database/models/customer");
 
 const router = express.Router();
-
-function normalizeEmail(email) {
-  return String(email || "")
-    .trim()
-    .toLowerCase();
-}
-
-function normalizeName(name) {
-  return String(name || "")
-    .normalize("NFKC")
-    .toLowerCase()
-    .replace(/\s+/g, "");
-}
-
-function normalizePhone(phone) {
-  let digits = String(phone || "").replace(/\D/g, "");
-
-  if (digits.startsWith("0049")) {
-    digits = digits.slice(2);
-  }
-
-  if (digits.startsWith("0")) {
-    digits = `49${digits.slice(1)}`;
-  }
-
-  return digits;
-}
 
 function getProductPrice(product) {
   const price = Number(product.price);
@@ -48,176 +21,162 @@ function getProductPrice(product) {
   return price;
 }
 
-router.get("/send", (req, res) => {
-  res.json({});
-});
+function normalizeEmail(email) {
+  return String(email || "")
+    .trim()
+    .toLowerCase();
+}
 
 router.post("/send", async (req, res) => {
-  try {
-    const { name, email, phone, products } = req.body || {};
+  const { customerId, name, phone, email, products } = req.body;
 
-    if (
-      !name ||
-      !email ||
-      !phone ||
-      !Array.isArray(products) ||
-      products.length === 0
-    ) {
-      return res.status(400).json({
-        status: "ERR",
-        message: "Invalid order data.",
-      });
-    }
+  const normalizedName = String(name || "").trim();
+  const normalizedPhone = String(phone || "").trim();
+  const normalizedEmail = normalizeEmail(email);
 
-    const emailNormalized = normalizeEmail(email);
-    const phoneNormalized = normalizePhone(phone);
-    const nameNormalized = normalizeName(name);
-
-    const customers = await Customer.findAll({
-      where: {
-        [Op.or]: [{ emailNormalized }, { phoneNormalized }],
-      },
+  if (
+    normalizedName.length < 2 ||
+    !normalizedPhone ||
+    !normalizedEmail ||
+    !Array.isArray(products) ||
+    products.length === 0
+  ) {
+    res.status(400).json({
+      status: "ERR",
+      message: "Please check the order data.",
     });
 
-    if (customers.length > 1) {
-      return res.status(409).json({
-        status: "ERR",
-        message: "Customer identification data conflict.",
-      });
-    }
+    return;
+  }
 
-    const customer = customers[0] || null;
+  const productIds = products
+    .map((item) => Number(item.id))
+    .filter((id) => Number.isInteger(id));
 
-    // Если пользователь найден,
-    // все три значения должны совпасть
-    if (customer) {
-      const sameName = normalizeName(customer.name) === nameNormalized;
+  if (productIds.length !== products.length) {
+    res.status(400).json({
+      status: "ERR",
+      message: "Invalid products data.",
+    });
 
-      const sameEmail = customer.emailNormalized === emailNormalized;
+    return;
+  }
 
-      const samePhone = customer.phoneNormalized === phoneNormalized;
+  const hasInvalidQuantity = products.some(
+    (item) =>
+      !Number.isInteger(Number(item.quantity)) || Number(item.quantity) < 1,
+  );
 
-      if (!sameName || !sameEmail || !samePhone) {
-        return res.status(409).json({
-          status: "ERR",
-          message:
-            "The entered customer information does not match the registered account.",
-        });
-      }
-    }
+  if (hasInvalidQuantity) {
+    res.status(400).json({
+      status: "ERR",
+      message: "Invalid product quantity.",
+    });
 
-    const normalizedItems = products.map((item) => ({
-      id: Number(item.id),
-      quantity: Number(item.quantity),
-    }));
+    return;
+  }
 
-    const hasInvalidItem = normalizedItems.some(
-      (item) =>
-        !Number.isInteger(item.id) ||
-        !Number.isInteger(item.quantity) ||
-        item.quantity < 1,
-    );
-
-    if (hasInvalidItem) {
-      return res.status(400).json({
-        status: "ERR",
-        message: "Invalid products.",
-      });
-    }
-
-    const uniqueProductIds = [
-      ...new Set(normalizedItems.map((item) => item.id)),
-    ];
-
-    // Цены берем исключительно из базы данных
+  try {
+    // Загружаем реальные товары из базы,
+    // чтобы не доверять цене, пришедшей с frontend
     const databaseProducts = await Product.findAll({
       where: {
         id: {
-          [Op.in]: uniqueProductIds,
+          [Op.in]: productIds,
         },
       },
     });
 
-    if (databaseProducts.length !== uniqueProductIds.length) {
-      return res.status(400).json({
+    if (databaseProducts.length !== productIds.length) {
+      res.status(400).json({
         status: "ERR",
-        message: "Some products do not exist.",
+        message: "One or more products were not found.",
       });
-    }
 
-    const productMap = new Map(
-      databaseProducts.map((product) => [product.id, product]),
-    );
+      return;
+    }
 
     let subtotal = 0;
 
-    normalizedItems.forEach((item) => {
-      const product = productMap.get(item.id);
-
-      subtotal += getProductPrice(product) * item.quantity;
-    });
-
-    subtotal = Number(subtotal.toFixed(2));
-
-    let firstOrderDiscountApplied = false;
-
-    // Только зарегистрированный пользователь,
-    // который еще не покупал, получает дополнительные 5%
-    if (customer) {
-      const [updatedRows] = await Customer.update(
-        {
-          hasCompletedFirstPurchase: true,
-        },
-        {
-          where: {
-            id: customer.id,
-            hasCompletedFirstPurchase: false,
-          },
-        },
+    products.forEach((orderItem) => {
+      const databaseProduct = databaseProducts.find(
+        (product) => product.id === Number(orderItem.id),
       );
 
-      firstOrderDiscountApplied = updatedRows === 1;
+      subtotal += getProductPrice(databaseProduct) * Number(orderItem.quantity);
+    });
+
+    let customer = null;
+    let hasFirstOrderDiscount = false;
+
+    // Если заказ делает зарегистрированный пользователь,
+    // определяем аккаунт только по его id
+    if (customerId) {
+      customer = await Customer.findByPk(Number(customerId));
+
+      if (!customer) {
+        res.status(404).json({
+          status: "ERR",
+          message: "Customer was not found.",
+        });
+
+        return;
+      }
+
+      // Email аккаунта нельзя подменить в заказе
+      if (normalizeEmail(customer.email) !== normalizedEmail) {
+        res.status(400).json({
+          status: "ERR",
+          message: "Customer email does not match the active account.",
+        });
+
+        return;
+      }
+
+      hasFirstOrderDiscount = customer.hasCompletedFirstPurchase === false;
     }
 
-    const firstOrderDiscountAmount = firstOrderDiscountApplied
-      ? Number((subtotal * 0.05).toFixed(2))
-      : 0;
+    const discountAmount = hasFirstOrderDiscount ? subtotal * 0.05 : 0;
 
-    const total = Number((subtotal - firstOrderDiscountAmount).toFixed(2));
+    const total = subtotal - discountAmount;
 
-    const updatedCustomer = customer
-      ? await Customer.findByPk(customer.id)
-      : null;
+    if (customer && hasFirstOrderDiscount) {
+      // После успешного первого заказа отмечаем скидку использованной
+      customer.hasCompletedFirstPurchase = true;
 
-    return res.json({
+      await customer.save();
+    }
+
+    res.json({
       status: "OK",
-      message: "request processed",
+      message: "Order placed successfully.",
 
-      firstOrderDiscountApplied,
+      order: {
+        // Эти данные относятся только к этому заказу
+        name: normalizedName,
+        phone: normalizedPhone,
+        email: normalizedEmail,
 
-      pricing: {
         subtotal,
-        firstOrderDiscountAmount,
+        discountAmount,
         total,
+
+        products: products.map((item) => ({
+          id: Number(item.id),
+          quantity: Number(item.quantity),
+        })),
       },
 
-      customer: updatedCustomer
-        ? {
-            id: updatedCustomer.id,
-            name: updatedCustomer.name,
-            email: updatedCustomer.email,
-            phone: updatedCustomer.phone,
-            hasCompletedFirstPurchase:
-              updatedCustomer.hasCompletedFirstPurchase,
-          }
-        : null,
+      // Возвращаем исходный аккаунт.
+      // Имя и телефон из формы заказа его не изменяют.
+      customer: customer ? customer.toJSON() : null,
     });
   } catch (error) {
-    console.error("Order error:", error);
+    console.error(error);
 
-    return res.status(500).json({
+    res.status(500).json({
       status: "ERR",
-      message: "Internal server error.",
+      message: "Failed to place order.",
     });
   }
 });

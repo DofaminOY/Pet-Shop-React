@@ -15,6 +15,18 @@
   background-color: var(--white-color);
 }
 
+.productLink {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
+  min-width: 0;
+
+  color: inherit;
+
+  text-decoration: none;
+}
+
 .imageWrapper {
   position: relative;
 
@@ -58,59 +70,6 @@
   line-height: var(--line-height-text);
 }
 
-.addButton {
-  position: absolute;
-  right: 16px;
-  bottom: 16px;
-  left: 16px;
-
-  min-height: 58px;
-
-  padding: 16px 32px;
-
-  border: none;
-  border-radius: var(--radius-small);
-
-  background-color: var(--primary-color);
-  color: var(--white-color);
-
-  font-size: 20px;
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-text);
-
-  opacity: 0;
-  visibility: hidden;
-
-  cursor: pointer;
-
-  transform: translateY(8px);
-
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease,
-    opacity 0.2s ease,
-    transform 0.2s ease,
-    visibility 0.2s ease;
-}
-
-.productCard:hover .addButton {
-  opacity: 1;
-  visibility: visible;
-
-  transform: translateY(0);
-}
-
-.addButton:hover {
-  background-color: var(--text-color);
-}
-
-.addButton:disabled {
-  background-color: var(--white-color);
-  color: var(--text-color);
-
-  cursor: default;
-}
-
 .content {
   display: flex;
   flex: 1;
@@ -139,7 +98,7 @@
   white-space: nowrap;
 }
 
-.priceRow {
+.price {
   display: flex;
   align-items: flex-end;
   gap: 16px;
@@ -169,19 +128,85 @@
   text-decoration: line-through;
 }
 
+/* Кнопка скрыта до наведения на карточку */
+.addButton {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  left: 16px;
+
+  min-height: 58px;
+
+  padding: 16px 32px;
+
+  border: none;
+  border-radius: var(--radius-small);
+
+  background-color: var(--primary-color);
+  color: var(--white-color);
+
+  font-family: var(--font-family-main);
+  font-size: 20px;
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-text);
+
+  opacity: 0;
+  visibility: hidden;
+
+  cursor: pointer;
+
+  transform: translateY(8px);
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s ease;
+}
+
+/* Показываем кнопку при наведении на карточку */
+.productCard:hover .addButton {
+  opacity: 1;
+  visibility: visible;
+
+  transform: translateY(0);
+}
+
+/* Обычное состояние hover */
+.addButton:hover:not(:disabled) {
+  background-color: var(--text-color);
+}
+
+/* Состояние Added остается видимым */
+.addedButton {
+  opacity: 1;
+  visibility: visible;
+
+  border: 1px solid var(--text-color);
+
+  background-color: var(--white-color);
+  color: var(--text-color);
+
+  cursor: default;
+
+  transform: translateY(0);
+}
+
+/* Не даем disabled-стилям браузера менять прозрачность */
+.addButton:disabled {
+  opacity: 1;
+}
+
 /* Планшет */
 @media (max-width: 1024px) {
   .productCard {
     min-width: 0;
     width: 100%;
   }
-
-  .imageWrapper {
-    width: 100%;
-  }
 }
 
-/* Мобильные устройства */
+/* На устройствах без hover кнопка должна быть доступна постоянно */
 @media (max-width: 768px) {
   .discountBadge {
     top: 12px;
@@ -227,10 +252,6 @@
 }
 
 @media (max-width: 480px) {
-  .productCard {
-    width: 100%;
-  }
-
   .content {
     padding: 20px 24px 24px;
   }

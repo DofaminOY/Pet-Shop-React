@@ -77,6 +77,9 @@ function OrderForm({ items, onOrderSuccess }) {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(ORDER_URL, {
+        // Передаем id аккаунта отдельно от контактных данных заказа
+        customerId: customer?.id || null,
+
         name: data.name.trim(),
         phone: data.phone.trim(),
         email: data.email.trim(),
@@ -160,7 +163,6 @@ function OrderForm({ items, onOrderSuccess }) {
           <input
             type="text"
             placeholder="Name"
-            readOnly={Boolean(customer)}
             className={`${styles.input} ${
               errors.name ? styles.inputError : ""
             }`}
@@ -179,7 +181,6 @@ function OrderForm({ items, onOrderSuccess }) {
           <input
             type="tel"
             placeholder="Phone number"
-            readOnly={Boolean(customer)}
             className={`${styles.input} ${
               errors.phone ? styles.inputError : ""
             }`}
