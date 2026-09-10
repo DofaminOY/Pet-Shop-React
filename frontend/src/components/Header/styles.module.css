@@ -1,11 +1,6 @@
 .header {
-  position: relative;
-  z-index: 100;
-
   width: 100%;
   height: 128px;
-
-  border-bottom: 1px solid var(--border-color);
 
   background-color: var(--white-color);
 }
@@ -13,18 +8,18 @@
 .headerContent {
   position: relative;
 
-  display: grid;
-  grid-template-columns: 70px minmax(0, 1fr) auto;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
 
-  height: 128px;
+  height: 100%;
 }
+
+/* Логотип */
 
 .logoLink {
   display: block;
-
-  width: 70px;
-  height: 70px;
+  flex-shrink: 0;
 }
 
 .logo {
@@ -33,6 +28,8 @@
   width: 70px;
   height: 70px;
 }
+
+/* Навигация */
 
 .desktopNav {
   display: flex;
@@ -45,20 +42,21 @@
 
 .navLink,
 .navButton {
+  flex-shrink: 0;
+
   padding: 0;
 
-  border: 0;
+  border: none;
 
-  background: transparent;
+  background-color: transparent;
   color: var(--text-color);
 
   font-family: var(--font-family-main);
   font-size: 16px;
   font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-control);
+  line-height: var(--line-height-text);
 
   text-decoration: none;
-  white-space: nowrap;
 
   cursor: pointer;
 }
@@ -69,19 +67,19 @@
   color: var(--primary-color);
 }
 
+/* Правая часть */
+
 .rightSide {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
-  justify-content: flex-end;
-  gap: 20px;
-
-  min-width: 0;
+  gap: 16px;
 }
 
 .account {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 
   min-width: 0;
 }
@@ -92,7 +90,6 @@
   gap: 6px;
 
   min-width: 0;
-  max-width: 180px;
 }
 
 .userIcon {
@@ -107,48 +104,49 @@
 .email {
   display: block;
 
-  min-width: 0;
+  max-width: 120px;
 
   overflow: hidden;
 
   color: var(--text-color);
 
-  font-size: 14px;
-  font-weight: var(--font-weight-medium);
+  font-size: 12px;
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-text);
 
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .logout {
+  flex-shrink: 0;
+
   padding: 0;
 
-  border: 0;
+  border: none;
 
-  background: transparent;
+  background-color: transparent;
   color: var(--gray-color);
 
   font-family: var(--font-family-main);
-  font-size: 13px;
-  font-weight: var(--font-weight-medium);
+  font-size: 12px;
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-text);
 
   cursor: pointer;
-  white-space: nowrap;
 }
 
 .logout:hover {
-  color: var(--primary-color);
+  color: var(--text-color);
 }
+
+/* Корзина */
 
 .cartLink {
   position: relative;
 
   display: block;
-
   flex-shrink: 0;
-
-  width: 48px;
-  height: 48px;
 }
 
 .cartIcon {
@@ -160,8 +158,8 @@
 
 .cartCount {
   position: absolute;
-  top: 0;
-  left: -8px;
+  top: -4px;
+  left: -4px;
 
   display: flex;
   align-items: center;
@@ -172,14 +170,17 @@
 
   padding: 0 6px;
 
-  border-radius: 50px;
+  border-radius: 50%;
 
   background-color: var(--primary-color);
   color: var(--white-color);
 
   font-size: 12px;
   font-weight: var(--font-weight-semibold);
+  line-height: 1;
 }
+
+/* Burger */
 
 .burger {
   display: none;
@@ -195,9 +196,9 @@
 
   padding: 0;
 
-  border: 0;
+  border: none;
 
-  background: transparent;
+  background-color: transparent;
 
   cursor: pointer;
 }
@@ -205,67 +206,180 @@
 .burger span {
   display: block;
 
-  flex-shrink: 0;
-
   width: 24px;
   height: 2px;
-
-  border-radius: 2px;
 
   background-color: var(--text-color);
 }
 
+/* Мобильное меню */
+
 .mobileMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  z-index: 100;
+
   display: none;
+  flex-direction: column;
+  gap: 20px;
+
+  padding: 24px;
+
+  border-top: 1px solid var(--border-color);
+
+  background-color: var(--white-color);
 }
 
-@media (max-width: 1180px) {
+.mobileLink,
+.mobileButton {
+  width: 100%;
+
+  padding: 0;
+
+  border: none;
+
+  background-color: transparent;
+  color: var(--text-color);
+
+  font-family: var(--font-family-main);
+  font-size: 18px;
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-text);
+
+  text-align: left;
+  text-decoration: none;
+
+  cursor: pointer;
+}
+
+.mobileLink:hover,
+.mobileButton:hover {
+  color: var(--primary-color);
+}
+
+.mobileAccount {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  padding-top: 20px;
+
+  border-top: 1px solid var(--border-color);
+}
+
+.mobileEmail {
+  overflow: hidden;
+
+  color: var(--text-color);
+
+  font-size: 14px;
+  line-height: var(--line-height-text);
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mobileLogout {
+  width: fit-content;
+
+  padding: 0;
+
+  border: none;
+
+  background-color: transparent;
+  color: var(--gray-color);
+
+  font-family: var(--font-family-main);
+  font-size: 14px;
+
+  cursor: pointer;
+}
+
+/* Средний экран:
+   меню еще остается открытым,
+   аккаунт переносится под навигацию */
+
+@media (max-width: 1024px) and (min-width: 769px) {
   .desktopNav {
-    gap: 18px;
+    gap: 20px;
+
+    margin-bottom: 34px;
   }
 
-  .emailWrapper {
-    max-width: 120px;
+  .navLink,
+  .navButton {
+    font-size: 14px;
+  }
+
+  .account {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+
+    gap: 10px;
+
+    transform: translateX(-50%);
+  }
+
+  .email {
+    max-width: 180px;
   }
 
   .rightSide {
     gap: 12px;
   }
-
-  .navLink,
-  .navButton {
-    font-size: 15px;
-  }
 }
 
-@media (max-width: 960px) {
-  .account {
-    display: none;
-  }
-
-  .desktopNav {
-    gap: 14px;
-  }
-}
+/* Планшет и мобильные устройства:
+   текстовая навигация скрывается,
+   аккаунт снова возвращается вправо */
 
 @media (max-width: 768px) {
-  .header,
-  .headerContent {
-    height: 100px;
-  }
-
-  .headerContent {
-    grid-template-columns: 60px minmax(0, 1fr) auto;
-  }
-
-  .logoLink,
-  .logo {
-    width: 60px;
-    height: 60px;
+  .header {
+    height: 96px;
   }
 
   .desktopNav {
     display: none;
+  }
+
+  .rightSide {
+    gap: 14px;
+  }
+
+  .account {
+    position: static;
+
+    gap: 6px;
+
+    transform: none;
+  }
+
+  .emailWrapper {
+    gap: 5px;
+  }
+
+  .userIcon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .email {
+    max-width: 110px;
+
+    font-size: 12px;
+  }
+
+  /* Выход остается доступен внутри burger-меню */
+  .logout {
+    display: none;
+  }
+
+  .cartIcon {
+    width: 44px;
+    height: 44px;
   }
 
   .burger {
@@ -273,102 +387,74 @@
   }
 
   .mobileMenu {
-    position: absolute;
-    top: 100px;
-    right: 0;
-    left: 0;
-
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+  }
+}
 
-    padding: 20px;
+/* Узкие мобильные устройства */
 
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
-
-    background-color: var(--white-color);
+@media (max-width: 600px) {
+  .rightSide {
+    gap: 12px;
   }
 
-  .mobileLink,
-  .mobileButton {
-    width: 100%;
-
-    padding: 12px 0;
-
-    border: 0;
-
-    background: transparent;
-    color: var(--text-color);
-
-    font-family: var(--font-family-main);
-    font-size: 16px;
-    font-weight: var(--font-weight-medium);
-
-    text-align: left;
-    text-decoration: none;
+  .email {
+    max-width: 80px;
   }
 
-  .mobileAccount {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-
-    margin-top: 8px;
-    padding-top: 16px;
-
-    border-top: 1px solid var(--border-color);
-  }
-
-  .mobileEmail {
-    min-width: 0;
-
-    overflow: hidden;
-
-    color: var(--primary-color);
-
-    font-size: 14px;
-    font-weight: var(--font-weight-medium);
-
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .mobileLogout {
-    flex-shrink: 0;
-
-    padding: 0;
-
-    border: 0;
-
-    background: transparent;
-    color: var(--gray-color);
-
-    font-family: var(--font-family-main);
-    font-size: 14px;
-
-    cursor: pointer;
+  .cartIcon {
+    width: 42px;
+    height: 42px;
   }
 }
 
 @media (max-width: 480px) {
+  .header {
+    height: 88px;
+  }
+
+  .logo {
+    width: 52px;
+    height: 52px;
+  }
+
   .rightSide {
     gap: 10px;
   }
 
-  .cartLink,
+  .userIcon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .email {
+    max-width: 64px;
+
+    font-size: 11px;
+  }
+
   .cartIcon {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .cartCount {
+    min-width: 22px;
+    height: 22px;
+
+    font-size: 11px;
   }
 
   .burger {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
   }
 
   .burger span {
     width: 22px;
+  }
+
+  .mobileMenu {
+    padding: 20px;
   }
 }
