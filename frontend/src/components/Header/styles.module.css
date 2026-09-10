@@ -2,6 +2,8 @@
   width: 100%;
   height: 128px;
 
+  border-bottom: 1px solid var(--border-color);
+
   background-color: var(--white-color);
 }
 
@@ -52,7 +54,7 @@
   color: var(--text-color);
 
   font-family: var(--font-family-main);
-  font-size: 16px;
+  font-size: 20px;
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-text);
 
@@ -298,24 +300,28 @@
 }
 
 /* Средний экран:
-   меню еще остается открытым,
-   аккаунт переносится под навигацию */
+   навигация остается видимой,
+   аккаунт переносится в отдельный нижний ряд */
 
-@media (max-width: 1024px) and (min-width: 769px) {
+@media (max-width: 1140px) and (min-width: 769px) {
+  .header {
+    height: 148px;
+  }
+
   .desktopNav {
     gap: 20px;
 
-    margin-bottom: 34px;
+    margin-bottom: 38px;
   }
 
   .navLink,
   .navButton {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .account {
     position: absolute;
-    bottom: 18px;
+    bottom: 16px;
     left: 50%;
 
     gap: 10px;
@@ -324,7 +330,7 @@
   }
 
   .email {
-    max-width: 180px;
+    max-width: 200px;
   }
 
   .rightSide {
@@ -333,8 +339,8 @@
 }
 
 /* Планшет и мобильные устройства:
-   текстовая навигация скрывается,
-   аккаунт снова возвращается вправо */
+   навигация уходит в burger,
+   аккаунт возвращается вправо */
 
 @media (max-width: 768px) {
   .header {

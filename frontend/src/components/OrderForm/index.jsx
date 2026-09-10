@@ -28,7 +28,7 @@ function getItemPrice(item) {
   return price;
 }
 
-function OrderForm({ items, onOrderSuccess }) {
+function OrderForm({ items, isOrderPlaced, onOrderSuccess }) {
   const dispatch = useDispatch();
 
   const customer = useSelector((state) => state.customer.customer);
@@ -224,10 +224,16 @@ function OrderForm({ items, onOrderSuccess }) {
 
         <button
           type="submit"
-          className={styles.orderButton}
-          disabled={isSubmitting}
+          className={`${styles.orderButton} ${
+            isOrderPlaced ? styles.orderButtonPlaced : ""
+          }`}
+          disabled={isSubmitting || isOrderPlaced}
         >
-          {isSubmitting ? "Sending..." : "Order"}
+          {isOrderPlaced
+            ? "The Order is Placed"
+            : isSubmitting
+              ? "Sending..."
+              : "Order"}
         </button>
       </form>
     </div>
