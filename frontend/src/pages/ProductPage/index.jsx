@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 
 import Breadcrumbs from "../../components/Breadcrumbs";
@@ -13,6 +13,7 @@ const BASE_URL = "http://localhost:3333";
 
 function ProductPage() {
   const { id } = useParams();
+  const location = useLocation();
 
   const dispatch = useDispatch();
 
@@ -178,31 +179,47 @@ function ProductPage() {
     }
   };
 
+  // Определяем страницу, с которой пользователь открыл товар
+  const sourcePath = location.state?.from;
+
+  const breadcrumbItems = [
+    {
+      label: "Main page",
+      to: "/",
+    },
+  ];
+
+  if (sourcePath === "/sales") {
+    breadcrumbItems.push({
+      label: "All sales",
+      to: "/sales",
+    });
+  } else if (sourcePath === "/products") {
+    breadcrumbItems.push({
+      label: "All products",
+      to: "/products",
+    });
+  } else {
+    breadcrumbItems.push({
+      label: "Categories",
+      to: "/categories",
+    });
+
+    if (category) {
+      breadcrumbItems.push({
+        label: category.title,
+        to: `/categories/${category.id}`,
+      });
+    }
+  }
+
+  breadcrumbItems.push({
+    label: product.title,
+  });
+
   return (
     <>
-      <Breadcrumbs
-        items={[
-          {
-            label: "Main page",
-            to: "/",
-          },
-          {
-            label: "Categories",
-            to: "/categories",
-          },
-          ...(category
-            ? [
-                {
-                  label: category.title,
-                  to: `/categories/${category.id}`,
-                },
-              ]
-            : []),
-          {
-            label: product.title,
-          },
-        ]}
-      />
+      <Breadcrumbs items={breadcrumbItems} />
 
       <section className={`${styles.productPage} container`}>
         <div className={styles.productContent}>

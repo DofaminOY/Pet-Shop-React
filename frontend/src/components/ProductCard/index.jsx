@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { addToCart } from "../../redux/cartSlice";
@@ -14,6 +14,7 @@ import styles from "./styles.module.css";
 
 function ProductCard({ product }) {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const [isAdded, setIsAdded] = useState(false);
 
@@ -43,7 +44,11 @@ function ProductCard({ product }) {
 
   return (
     <article className={styles.productCard}>
-      <Link to={`/products/${product.id}`} className={styles.productLink}>
+      <Link
+        to={`/products/${product.id}`}
+        state={{ from: location.pathname }}
+        className={styles.productLink}
+      >
         <div className={styles.imageWrapper}>
           <img
             src={product.image}
