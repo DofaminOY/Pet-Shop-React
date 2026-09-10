@@ -57,7 +57,7 @@ function ProductCard({ product }) {
           />
 
           {hasDiscount && (
-            <span className={styles.discount}>-{discountPercent}%</span>
+            <span className={styles.discountBadge}>-{discountPercent}%</span>
           )}
         </div>
 

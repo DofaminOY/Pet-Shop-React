@@ -16,6 +16,7 @@ function SalesPage() {
 
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+  const [discountedOnly, setDiscountedOnly] = useState(true);
   const [sortType, setSortType] = useState("default");
 
   const products = useSelector((state) => state.products.products);
@@ -29,10 +30,14 @@ function SalesPage() {
     }
   }, [dispatch, status]);
 
-  // Оставляем только товары со скидкой,
-  // затем применяем фильтрацию по цене и сортировку
-  const discountedProducts = useMemo(() => {
-    let result = products.filter((product) => hasProductDiscount(product));
+  // Фильтруем товары по скидке и цене,
+  // затем применяем выбранную сортировку
+  const filteredProducts = useMemo(() => {
+    let result = [...products];
+
+    if (discountedOnly) {
+      result = result.filter((product) => hasProductDiscount(product));
+    }
 
     if (minPrice !== "") {
       result = result.filter(
@@ -65,7 +70,7 @@ function SalesPage() {
     }
 
     return result;
-  }, [products, minPrice, maxPrice, sortType]);
+  }, [products, minPrice, maxPrice, discountedOnly, sortType]);
 
   return (
     <>
@@ -97,17 +102,16 @@ function SalesPage() {
             <Filters
               minPrice={minPrice}
               maxPrice={maxPrice}
-              discountedOnly={false}
+              discountedOnly={discountedOnly}
               sortType={sortType}
               onMinPriceChange={setMinPrice}
               onMaxPriceChange={setMaxPrice}
-              onDiscountedChange={() => {}}
+              onDiscountedChange={setDiscountedOnly}
               onSortChange={setSortType}
-              showDiscounted={false}
             />
 
-            {discountedProducts.length > 0 ? (
-              <ProductsGrid products={discountedProducts} />
+            {filteredProducts.length > 0 ? (
+              <ProductsGrid products={filteredProducts} />
             ) : (
               <p className={styles.message}>No discounted products found.</p>
             )}
